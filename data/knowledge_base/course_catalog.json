@@ -1,0 +1,75 @@
+{
+  "undergraduate": {
+    "engineering": [
+      {
+        "name": "Computer Science & Engineering",
+        "duration": "4 years",
+        "seats": 120,
+        "fee_per_year": 150000,
+        "subjects": [
+          "Programming",
+          "Data Structures",
+          "Algorithms",
+          "Database Systems",
+          "Software Engineering"
+          
+        ]
+      },
+      {
+        "name": "Electronics & Communication Engineering",
+        "duration": "4 years",
+        "seats": 60,
+        "fee_per_year": 140000,
+        "subjects": [
+          "Circuit Theory",
+          "Digital Electronics",
+          "Communication Systems",
+          "Microprocessors"
+        ]
+      }
+    ],
+    "science": [
+      {
+        "name": "Physics",
+        "duration": "3 years",
+        "seats": 40,
+        "fee_per_year": 80000,
+        "subjects": [
+          "Classical Mechanics",
+          "Quantum Physics",
+          "Thermodynamics",
+          "Electromagnetism"
+        ]
+      }
+    ]
+  },
+  "postgraduate": {
+    "engineering": [
+      {
+        "name": "M.Tech Computer Science",
+        "duration": "2 years",
+        "seats": 30,
+        "fee_per_year": 200000,
+        "specializations": [
+          "Machine Learning",
+          "Cybersecurity",
+          "Software Engineering"
+        ]
+      }
+    ],
+    "management": [
+      {
+        "name": "MBA",
+        "duration": "2 years",
+        "seats": 60,
+        "fee_per_year": 300000,
+        "specializations": [
+          "Finance",
+          "Marketing",
+          "Human Resources",
+          "Operations"
+        ]
+      }
+    ]
+  }
+}
