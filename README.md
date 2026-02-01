@@ -24,7 +24,7 @@ An intelligent chatbot system for college helpdesk services built with Streamlit
 
 1. **Clone the repository**
    ```bash
-   git clone <>
+   git clone <https://github.com/madhanmohanreddyperam06/MITRA.git>
    cd smart_college_bot
    ```
 
