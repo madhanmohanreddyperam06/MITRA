@@ -1,6 +1,13 @@
 # MITRA - AI Powered College Helpdesk Bot
 
-An intelligent chatbot system for college helpdesk services built with Streamlit frontend and FastAPI backend.
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![spaCy](https://img.shields.io/badge/spaCy-09A3D5?style=for-the-badge&logo=spacy&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+
+An intelligent chatbot system for college helpdesk services built with Streamlit frontend and FastAPI backend. MITRA provides instant responses to student queries about admissions, courses, facilities, and more using advanced NLP techniques.
 
 ## Features
 
@@ -23,23 +30,27 @@ An intelligent chatbot system for college helpdesk services built with Streamlit
 ## Installation
 
 1. **Clone the repository**
+
    ```bash
-   git clone <>
+   git clone <https://github.com/madhanmohanreddyperam06/MITRA.git>
    cd smart_college_bot
    ```
 
 2. **Create virtual environment**
+
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
 3. **Install dependencies**
+
    ```bash
    pip install -r requirements.txt
    ```
 
 4. **Download spaCy model**
+
    ```bash
    python -m spacy download en_core_web_sm
    ```
@@ -49,11 +60,13 @@ An intelligent chatbot system for college helpdesk services built with Streamlit
 ### Running the Backend API
 
 1. Navigate to the backend directory:
+
    ```bash
    cd backend
    ```
 
 2. Start the FastAPI server:
+
    ```bash
    python main.py
    ```
@@ -63,11 +76,13 @@ An intelligent chatbot system for college helpdesk services built with Streamlit
 ### Running the Streamlit Frontend
 
 1. Navigate to the streamlit_app directory:
+
    ```bash
    cd streamlit_app
    ```
 
 2. Start the Streamlit app:
+
    ```bash
    streamlit run main.py
    ```
@@ -133,12 +148,14 @@ Modify components in the `streamlit_app/components/` directory or add new pages 
 ### Running in Development Mode
 
 Backend with auto-reload:
+
 ```bash
 cd backend
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 Streamlit with auto-reload:
+
 ```bash
 cd streamlit_app
 streamlit run main.py --server.runOnSave true
@@ -176,3 +193,11 @@ This project is open source and available under the MIT License.
 ## Support
 
 For support or questions, please contact the development team or create an issue in the repository.
+
+## Contact
+
+**Developer**: Madhan Mohan Reddy  
+**Email**: [madhanmohanreddyperam06@gmail.com](mailto:madhanmohanreddyperam06@gmail.com)  
+**Mobile**: +91 9110395993  
+
+Feel free to reach out for collaborations, support, or any inquiries about the MITRA project.
