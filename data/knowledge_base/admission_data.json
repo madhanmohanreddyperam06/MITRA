@@ -1,0 +1,40 @@
+{
+  "admission_requirements": {
+    "undergraduate": {
+      "eligibility": "12th standard with minimum 60% marks",
+      "subjects_required": [
+        "Physics",
+        "Chemistry",
+        "Mathematics"
+      ],
+      "entrance_test": "College entrance exam or JEE Main",
+      "application_period": "March 1 to June 30",
+      "documents": [
+        "10th and 12th mark sheets",
+        "Entrance test scorecard",
+        "Transfer certificate",
+        "Passport size photographs",
+        "Category certificate (if applicable)"
+      ]
+    },
+    "postgraduate": {
+      "eligibility": "Bachelor's degree with minimum 55% marks",
+      "entrance_test": "Graduate Aptitude Test or GATE",
+      "application_period": "April 1 to July 31",
+      "documents": [
+        "Bachelor's degree certificate and transcripts",
+        "Entrance test scorecard",
+        "Work experience certificate (if applicable)",
+        "Research proposal (for research programs)"
+      ]
+    }
+  },
+  "important_dates": {
+    "application_start": "March 1, 2024",
+    "application_deadline": "June 30, 2024",
+    "entrance_test_date": "July 15, 2024",
+    "result_declaration": "July 30, 2024",
+    "counseling_dates": "August 1-15, 2024",
+    "admission_confirmation": "August 20, 2024"
+  }
+}
