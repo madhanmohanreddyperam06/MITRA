@@ -1,13 +1,13 @@
 # Backend API
-fastapi==0.104.1
-uvicorn[standard]==0.24.0
-pydantic==2.5.0
+fastapi>=0.104.0,<0.105.0
+uvicorn[standard]>=0.24.0
+pydantic>=2.7.0,<3.0.0
 pydantic-settings>=2.10.1
 
 # Authentication
 python-jose[cryptography]>=3.3.0
 passlib[bcrypt]>=1.7.4
-bcrypt==3.2.2
+bcrypt>=3.2.0
 email-validator>=2.0.0
 
 # Database
@@ -17,7 +17,7 @@ pymysql>=1.1.0
 cryptography>=41.0.0
 
 # Configuration
-python-dotenv==1.0.0
+python-dotenv>=1.0.0
 
 # NLP and ML
 spacy>=3.7.0,<4.0.0
