@@ -12,6 +12,11 @@ def create_app_engine(url: str):
     """Create SQLAlchemy engine for PostgreSQL database with production-ready settings."""
     logger.info("Using PostgreSQL database")
 
+    # Ensure URL uses psycopg2 driver
+    if "postgresql://" in url and "+psycopg2" not in url:
+        url = url.replace("postgresql://", "postgresql+psycopg2://")
+        logger.info("Updated database URL to use psycopg2 driver")
+
     # Configure engine for PostgreSQL
     engine = create_engine(
         url,
