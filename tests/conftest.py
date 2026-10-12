@@ -66,7 +66,7 @@ def test_engine():
     )
 
     try:
-        # Create tables
+        # Create tables using SQLAlchemy (acceptable for test environment)
         Base.metadata.create_all(bind=engine)
     except Exception as e:
         pytest.skip(f"MySQL database not accessible: {e}")
@@ -178,10 +178,19 @@ def mysql_engine():
         with engine.connect() as conn:
             conn.execute(text("SELECT 1"))
 
+        # Create all tables for MySQL integration tests
+        Base.metadata.create_all(bind=engine)
+
         yield engine
 
     except Exception as e:
         pytest.skip(f"MySQL not available: {e}")
+
+    # Cleanup
+    try:
+        Base.metadata.drop_all(bind=engine)
+    except Exception:
+        pass
 
 
 # MySQL session fixture

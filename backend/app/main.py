@@ -59,12 +59,24 @@ app.include_router(chat_router, tags=["Chat"])
 app.include_router(knowledge_router, tags=["Knowledge"])
 app.include_router(intents_router, tags=["Intents"])
 
+# Include user management router (admin functions)
+from app.api.auth import user_management_router
+app.include_router(user_management_router, prefix="/api", tags=["User Management"])
+
 
 @app.on_event("startup")
 async def startup_event():
     """Initialize application on startup."""
     logger.info(f"Starting {settings.APP_NAME} in {settings.APP_ENV} mode")
-    logger.info(f"Database URL: {settings.DATABASE_URL}")
+    # Don't log full database URL as it may contain credentials
+    db_url = settings.DATABASE_URL
+    if '@' in db_url:
+        # Mask credentials in database URL for logging
+        parts = db_url.split('@')
+        masked_url = f"{parts[0].split('://')[0]}://***:***@{parts[1]}"
+        logger.info(f"Database URL: {masked_url}")
+    else:
+        logger.info(f"Database URL: {db_url}")
     init_db()
     logger.info("Application startup complete")
 

@@ -4,12 +4,15 @@ from sqlalchemy.orm import Session
 from app.database.connection import get_db
 from app.database.repositories.users import UserRepository
 from app.services.auth_service import AuthService
-from app.schemas.auth import UserRegister, UserLogin, UserResponse, TokenResponse
+from app.schemas.auth import UserRegister, UserLogin, UserResponse, TokenResponse, UserStatusUpdate
 from app.core.security import get_current_user, get_auth_service
 from app.core.logging import logger
 from app.core.exceptions import MITRAError
 
 router = APIRouter()
+
+# Separate router for user management (admin functions)
+user_management_router = APIRouter()
 
 
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
@@ -89,3 +92,121 @@ async def get_current_user_info(
     Requires authentication.
     """
     return current_user
+
+
+# User management endpoints (admin functions) - moved to separate router
+@user_management_router.get("/users", response_model=list[UserResponse])
+async def list_users(
+    current_user: dict = Depends(get_current_user),
+    auth_service: AuthService = Depends(get_auth_service)
+):
+    """
+    List all users (admin only).
+    Requires authentication and admin privileges.
+    """
+    if not current_user.get('is_admin'):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin privileges required"
+        )
+    
+    users = auth_service.user_repo.list_users()
+    return users
+
+
+@user_management_router.get("/users/{user_id}", response_model=UserResponse)
+async def get_user(
+    user_id: int,
+    current_user: dict = Depends(get_current_user),
+    auth_service: AuthService = Depends(get_auth_service)
+):
+    """
+    Get a specific user by ID (admin only).
+    Requires authentication and admin privileges.
+    """
+    if not current_user.get('is_admin'):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin privileges required"
+        )
+    
+    user = auth_service.user_repo.get_by_id(user_id)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+    return user
+
+
+@user_management_router.patch("/users/{user_id}/status", response_model=UserResponse)
+async def update_user_status(
+    user_id: int,
+    status_update: UserStatusUpdate,
+    current_user: dict = Depends(get_current_user),
+    auth_service: AuthService = Depends(get_auth_service)
+):
+    """
+    Update user active status (admin only).
+    Requires authentication and admin privileges.
+    """
+    if not current_user.get('is_admin'):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin privileges required"
+        )
+    
+    user = auth_service.user_repo.get_by_id(user_id)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+    
+    # Prevent deactivating the only admin
+    if user.get('is_admin') and not status_update.is_active:
+        admin_count = auth_service.user_repo.count_admins()
+        if admin_count <= 1:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Cannot deactivate the only administrator"
+            )
+    
+    updated_user = auth_service.user_repo.update_user(user_id, {'is_active': status_update.is_active})
+    return updated_user
+
+
+@user_management_router.delete("/users/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_user(
+    user_id: int,
+    current_user: dict = Depends(get_current_user),
+    auth_service: AuthService = Depends(get_auth_service)
+):
+    """
+    Delete a user (admin only).
+    Requires authentication and admin privileges.
+    """
+    if not current_user.get('is_admin'):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin privileges required"
+        )
+    
+    user = auth_service.user_repo.get_by_id(user_id)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+    
+    # Prevent deleting the only admin
+    if user.get('is_admin'):
+        admin_count = auth_service.user_repo.count_admins()
+        if admin_count <= 1:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Cannot delete the only administrator"
+            )
+    
+    auth_service.user_repo.delete_user(user_id)
+    return None

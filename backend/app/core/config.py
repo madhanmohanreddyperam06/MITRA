@@ -48,8 +48,8 @@ class Settings(BaseSettings):
         """Get database URL from environment or config."""
         if 'DATABASE_URL' in os.environ:
             return os.environ['DATABASE_URL']
-
-        return self.DATABASE_URL
+        else:
+            return self.DATABASE_URL
 
     def get_jwt_secret_key(self) -> str:
         """Get JWT secret key from environment or config.
