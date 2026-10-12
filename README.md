@@ -130,7 +130,7 @@ The API will be available at `http://localhost:8000` and docs at `http://localho
 Open a second terminal, navigate to the project root, activate `venv`, then run:
 
 ```bash
-cd streamlit_app
+cd frontend
 python -m streamlit run main.py
 ```
 
@@ -144,7 +144,7 @@ The Streamlit interface will open automatically in your browser at `http://local
 
 ```
 MITRA/
-├── streamlit_app/              # Frontend application
+├── frontend/                   # Frontend application
 │   ├── main.py                 # Main Streamlit app
 │   ├── components/             # Reusable UI components
 │   │   ├── __init__.py
@@ -355,7 +355,7 @@ python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 Streamlit with auto-reload:
 
 ```bash
-cd streamlit_app
+cd frontend
 streamlit run main.py --server.runOnSave true
 ```
 

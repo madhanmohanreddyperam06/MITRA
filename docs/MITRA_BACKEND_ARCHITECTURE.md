@@ -567,7 +567,7 @@ backend/
 ├── .env.example                         # Environment variables template
 └── requirements.txt                     # Python dependencies
 
-streamlit_app/
+frontend/
 ├── main.py                              # Streamlit application entry point
 ├── components/                          # Streamlit components
 │   ├── __init__.py

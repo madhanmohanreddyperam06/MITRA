@@ -380,7 +380,7 @@ curl http://localhost:8000/qa
 In a new terminal:
 
 ```bash
-cd streamlit_app
+cd frontend
 streamlit run main.py
 ```
 

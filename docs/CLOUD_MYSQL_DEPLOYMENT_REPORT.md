@@ -551,7 +551,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000
 
 ### 8. Start Streamlit (New Terminal)
 ```bash
-cd streamlit_app
+cd frontend
 streamlit run main.py
 ```
 

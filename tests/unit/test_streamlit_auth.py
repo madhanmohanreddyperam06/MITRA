@@ -4,8 +4,8 @@ from unittest.mock import MagicMock, patch
 import sys
 import os
 
-# Add streamlit_app to sys.path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../streamlit_app"))
+# Add frontend to sys.path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../frontend"))
 
 from components.auth import AuthComponent
 

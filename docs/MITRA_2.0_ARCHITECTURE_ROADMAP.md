@@ -53,21 +53,21 @@ SQLite Database
 
 ### 1.3 Frontend Components
 
-**Entry Point:** `streamlit_app/main.py`
+**Entry Point:** `frontend/main.py`
 
 - Streamlit multi-page application
 - Session state for messages and user context
 - Chat interface component
 - Sidebar with quick actions
 
-**Chat Interface:** `streamlit_app/components/chat_interface.py`
+**Chat Interface:** `frontend/components/chat_interface.py`
 
 - HTTP requests to backend API
 - Fallback responses when backend unavailable
 - Last 5 messages sent as context
 - 30-second timeout
 
-**Sidebar:** `streamlit_app/components/sidebar.py`
+**Sidebar:** `frontend/components/sidebar.py`
 
 - Quick action buttons for common queries
 - User context selection (student type)

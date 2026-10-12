@@ -442,7 +442,7 @@ Expected response:
 ### Step 1: Install Dependencies
 
 ```bash
-cd streamlit_app
+cd frontend
 pip install -r requirements.txt
 ```
 
@@ -453,7 +453,7 @@ Ensure Streamlit can reach the backend API. Update the API base URL in `componen
 ### Step 3: Start Streamlit
 
 ```bash
-cd streamlit_app
+cd frontend
 streamlit run main.py
 ```
 

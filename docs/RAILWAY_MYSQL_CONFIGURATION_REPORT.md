@@ -333,7 +333,7 @@ Follow the prompts to create the initial administrator.
 
 Update Streamlit's API base URL to point to Railway backend:
 
-In `streamlit_app/components/auth.py`, update:
+In `frontend/components/auth.py`, update:
 ```python
 self.api_base_url = "https://your-app.railway.app"
 ```
