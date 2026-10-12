@@ -4,7 +4,7 @@
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
 ![spaCy](https://img.shields.io/badge/spaCy-09A3D5?style=for-the-badge&logo=spacy&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white)
 
 An intelligent chatbot system for college helpdesk services built with Streamlit frontend and FastAPI backend. MITRA provides instant responses to student queries about admissions, courses, facilities, and more using NLP techniques with spaCy.
 
@@ -18,13 +18,13 @@ An intelligent chatbot system for college helpdesk services built with Streamlit
 - 🏢 **Placement Support**: Career guidance and placement statistics
 - 📞 **Contact Information**: Department contacts and office locations
 - 🔐 **User Authentication**: Secure JWT-based registration and login system
-- 🗄️ **MySQL Database**: Robust relational storage using MySQL 8.x, SQLAlchemy 2.0, and Alembic migrations
+- 🗄️ **PostgreSQL Database**: Robust relational storage using PostgreSQL, SQLAlchemy 2.0, and Alembic migrations
 - 👤 **Guest Mode**: Explore the system without registration
 
 ## Completed Tasks & Status
 
 - ✅ **Architecture Modernization**: Modular layered architecture (API routes, Services, Repositories, Schemas, Core)
-- ✅ **MySQL Database**: Complete migration to MySQL with SQLAlchemy 2.0 ORM
+- ✅ **PostgreSQL Database**: Complete migration to PostgreSQL with SQLAlchemy 2.0 ORM
 - ✅ **Authentication System**: JWT tokens, Bcrypt password hashing, user registration, and login
 - ✅ **NLP Intent & Entity Engine**: spaCy pipeline with keyword fallback matching for college queries
 - ✅ **Multi-page Frontend**: Streamlit app with landing page, chat interface, and information pages
@@ -35,7 +35,7 @@ An intelligent chatbot system for college helpdesk services built with Streamlit
 - **Frontend**: Streamlit
 - **Backend**: FastAPI + Python
 - **NLP**: spaCy (`en_core_web_sm`)
-- **Database**: MySQL 8.x
+- **Database**: PostgreSQL
 - **ORM**: SQLAlchemy 2.0
 - **Migrations**: Alembic
 - **Authentication**: JWT + Bcrypt
@@ -46,7 +46,7 @@ An intelligent chatbot system for college helpdesk services built with Streamlit
 ### Prerequisites
 
 - Python 3.8 or higher
-- MySQL 8.x Server
+- PostgreSQL Server (local or cloud)
 - pip (Python package manager)
 
 ### 1. Clone the repository
@@ -83,16 +83,16 @@ pip install -r requirements.txt
 python -m spacy download en_core_web_sm
 ```
 
-### 5. Initialize the database (MySQL)
+### 5. Initialize the database (PostgreSQL)
 
-1. Create a MySQL database:
+1. Create a PostgreSQL database:
    ```sql
-   CREATE DATABASE mitra CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+   CREATE DATABASE mitra;
    ```
 
 2. Configure environment variables in `backend/.env` (or copy from `.env.example`):
    ```bash
-   DATABASE_URL=mysql+pymysql://username:password@localhost:3306/mitra
+   DATABASE_URL=postgresql://username:password@localhost:5432/mitra
    ```
 
 3. Run Alembic database migrations:
@@ -229,8 +229,8 @@ The application settings are configured using environment variables. Create a `.
 
 ### Environment Variables
 
-- `DATABASE_URL`: Database connection string (default: `mysql+pymysql://mitra_user:password@localhost:3306/mitra_db`)
-  - MySQL: `mysql+pymysql://user:password@localhost:3306/database_name`
+- `DATABASE_URL`: Database connection string (default: `postgresql://mitra_user:password@localhost:5432/mitra_db`)
+  - PostgreSQL: `postgresql://user:password@localhost:5432/database_name`
 - `API_HOST`: API host (default: `127.0.0.1`)
 - `API_PORT`: API port (default: `8000`)
 - `APP_ENV`: Application environment (default: `development`)
@@ -246,7 +246,7 @@ The application settings are configured using environment variables. Create a `.
 
 ```bash
 # Database
-DATABASE_URL=mysql+pymysql://root:password@localhost:3306/mitra_db
+DATABASE_URL=postgresql://mitra_user:password@localhost:5432/mitra_db
 
 # API
 API_HOST=127.0.0.1
@@ -391,19 +391,18 @@ For detailed testing documentation, see [tests/README.md](tests/README.md).
 
 ## Deployment
 
-### MySQL Setup
+### PostgreSQL Setup
 
-#### 1. Set up MySQL Server
+#### 1. Set up PostgreSQL Server
 
-Install MySQL 8.x on your server or use a managed MySQL service (AWS RDS, Google Cloud SQL, etc.).
+Install PostgreSQL on your server or use a managed PostgreSQL service (Render, AWS RDS, Google Cloud SQL, etc.).
 
 #### 2. Create Database
 
 ```sql
-CREATE DATABASE mitra CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'mitra_user'@'localhost' IDENTIFIED BY 'secure_password';
-GRANT ALL PRIVILEGES ON mitra.* TO 'mitra_user'@'localhost';
-FLUSH PRIVILEGES;
+CREATE DATABASE mitra;
+CREATE USER mitra_user WITH PASSWORD 'secure_password';
+GRANT ALL PRIVILEGES ON DATABASE mitra TO mitra_user;
 ```
 
 #### 3. Configure Environment Variables
@@ -411,7 +410,7 @@ FLUSH PRIVILEGES;
 Set the `DATABASE_URL` environment variable:
 
 ```bash
-DATABASE_URL=mysql+pymysql://mitra_user:secure_password@localhost:3306/mitra
+DATABASE_URL=postgresql://mitra_user:secure_password@localhost:5432/mitra
 ```
 
 #### 4. Run Migrations
@@ -428,28 +427,21 @@ cd backend
 python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
-### Cloud Deployment
+### Cloud Deployment (Render)
 
-- **Frontend**: Deploy on Streamlit Community Cloud
-- **Backend**: Deploy on Heroku, AWS, or similar platforms
-- **Database**: Use managed MySQL service (AWS RDS, Google Cloud SQL, etc.)
+For cloud deployment on Render.com, see [RENDER_POSTGRESQL_DEPLOYMENT.md](docs/RENDER_POSTGRESQL_DEPLOYMENT.md).
 
-#### Heroku Example
+**Quick Start:**
+1. Create PostgreSQL service on Render
+2. Create Web Service for backend
+3. Configure environment variables
+4. Run migrations via Render Shell
+5. Create admin user
+6. Deploy frontend (optional)
 
-```bash
-# Install Heroku CLI
-# Login to Heroku
-heroku login
-
-# Create app
-heroku create mitra-backend
-
-# Set environment variables
-heroku config:set DATABASE_URL=mysql+pymysql://...
-
-# Deploy
-git push heroku main
-```
+- **Frontend**: Deploy on Streamlit Community Cloud or Render
+- **Backend**: Deploy on Render (recommended), Heroku, AWS, or similar platforms
+- **Database**: Use managed PostgreSQL service (Render, AWS RDS, Google Cloud SQL, etc.)
 
 ## Contributing
 

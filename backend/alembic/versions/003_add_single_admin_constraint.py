@@ -20,59 +20,64 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     """Add trigger to prevent multiple admin users."""
-    # MySQL doesn't support partial indexes, so we use a trigger
-    # This trigger will prevent creating a second admin user
+    # PostgreSQL trigger to prevent multiple admin users
 
-    # Drop trigger if it exists (for idempotency)
+    # Drop function if it exists (for idempotency)
     op.execute("""
-        DROP TRIGGER IF EXISTS prevent_multiple_admins
+        DROP FUNCTION IF EXISTS prevent_multiple_admins() CASCADE
     """)
 
-    # Create trigger to prevent multiple admins
+    # Create function to check admin count
     op.execute("""
-        CREATE TRIGGER prevent_multiple_admins
-        BEFORE INSERT ON users
-        FOR EACH ROW
+        CREATE OR REPLACE FUNCTION prevent_multiple_admins()
+        RETURNS TRIGGER AS $$
         BEGIN
-            DECLARE admin_count INT;
-            IF NEW.is_admin = 1 THEN
-                SELECT COUNT(*) INTO admin_count FROM users WHERE is_admin = 1;
-                IF admin_count > 0 THEN
-                    SIGNAL SQLSTATE '45000'
-                    SET MESSAGE_TEXT = 'Cannot create more than one administrator';
+            IF NEW.is_admin = true THEN
+                IF EXISTS (SELECT 1 FROM users WHERE is_admin = true) THEN
+                    RAISE EXCEPTION 'Cannot create more than one administrator';
                 END IF;
             END IF;
-        END
+            RETURN NEW;
+        END;
+        $$ LANGUAGE plpgsql
     """)
 
-    # Also add trigger for updates
+    # Create trigger for inserts
     op.execute("""
-        DROP TRIGGER IF EXISTS prevent_multiple_admins_update
+        DROP TRIGGER IF EXISTS prevent_multiple_admins_insert ON users
+    """)
+
+    op.execute("""
+        CREATE TRIGGER prevent_multiple_admins_insert
+        BEFORE INSERT ON users
+        FOR EACH ROW
+        EXECUTE FUNCTION prevent_multiple_admins()
+    """)
+
+    # Create trigger for updates
+    op.execute("""
+        DROP TRIGGER IF EXISTS prevent_multiple_admins_update ON users
     """)
 
     op.execute("""
         CREATE TRIGGER prevent_multiple_admins_update
         BEFORE UPDATE ON users
         FOR EACH ROW
-        BEGIN
-            DECLARE admin_count INT;
-            IF NEW.is_admin = 1 AND OLD.is_admin = 0 THEN
-                SELECT COUNT(*) INTO admin_count FROM users WHERE is_admin = 1;
-                IF admin_count > 0 THEN
-                    SIGNAL SQLSTATE '45000'
-                    SET MESSAGE_TEXT = 'Cannot have more than one administrator';
-                END IF;
-            END IF;
-        END
+        WHEN (NEW.is_admin = true AND OLD.is_admin = false)
+        EXECUTE FUNCTION prevent_multiple_admins()
     """)
 
 
 def downgrade() -> None:
     """Remove single admin constraint triggers."""
     op.execute("""
-        DROP TRIGGER IF EXISTS prevent_multiple_admins
+        DROP TRIGGER IF EXISTS prevent_multiple_admins_insert ON users
     """)
 
     op.execute("""
-        DROP TRIGGER IF EXISTS prevent_multiple_admins_update
+        DROP TRIGGER IF EXISTS prevent_multiple_admins_update ON users
+    """)
+
+    op.execute("""
+        DROP FUNCTION IF EXISTS prevent_multiple_admins() CASCADE
     """)

@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     API_PORT: int = Field(default=8000)
 
     # Database
-    DATABASE_URL: str = Field(default="mysql+pymysql://mitra_user:password@localhost:3306/mitra_db")
+    DATABASE_URL: str = Field(default="postgresql://mitra_user:password@localhost:5432/mitra_db")
 
     # Authentication
     JWT_SECRET_KEY: str = Field(default="dev-secret-change-in-production")  # Development default, override in production
