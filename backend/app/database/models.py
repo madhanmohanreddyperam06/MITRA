@@ -93,6 +93,7 @@ class User(Base):
     password_hash = Column(String(255), nullable=False)
     full_name = Column(String(255), nullable=True)
     is_active = Column(Boolean, default=True, nullable=False)
+    is_admin = Column(Boolean, default=False, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
     last_login_at = Column(DateTime, nullable=True)
@@ -100,4 +101,6 @@ class User(Base):
     __table_args__ = (
         Index('ix_users_username', 'username'),
         Index('ix_users_email', 'email'),
+        Index('ix_users_is_admin', 'is_admin'),
+        Index('ix_users_is_active', 'is_active'),
     )

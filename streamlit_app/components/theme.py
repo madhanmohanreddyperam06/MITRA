@@ -63,6 +63,51 @@ def apply_global_theme():
                 border-color: #7c3aed !important;
             }
 
+            /* Mobile View - side-by-side layout for buttons and columns */
+            @media (max-width: 768px) {
+                [data-testid="stHorizontalBlock"],
+                div[class*="stHorizontalBlock"] {
+                    display: flex !important;
+                    flex-direction: row !important;
+                    flex-wrap: nowrap !important;
+                    width: 100% !important;
+                    gap: 6px !important;
+                    align-items: center !important;
+                }
+
+                [data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:not(:has(button)):not(:has(h1)):not(:has(p)):not(:has(form)):not(:has(input)):not(:has(span)),
+                [data-testid="stHorizontalBlock"] > [data-testid="column"]:not(:has(button)):not(:has(h1)):not(:has(p)):not(:has(form)):not(:has(input)):not(:has(span)),
+                div[class*="stHorizontalBlock"] > div[class*="stColumn"]:not(:has(button)):not(:has(h1)):not(:has(p)):not(:has(form)):not(:has(input)):not(:has(span)) {
+                    display: none !important;
+                    width: 0 !important;
+                    flex: 0 0 0px !important;
+                    margin: 0 !important;
+                    padding: 0 !important;
+                }
+
+                [data-testid="stHorizontalBlock"] > [data-testid="stColumn"],
+                [data-testid="stHorizontalBlock"] > [data-testid="column"],
+                div[class*="stHorizontalBlock"] > div[class*="stColumn"],
+                [data-testid="stColumn"],
+                [data-testid="column"] {
+                    width: auto !important;
+                    min-width: 0 !important;
+                    flex: 1 1 0% !important;
+                }
+
+                div.stButton > button {
+                    padding: 6px 4px !important;
+                    font-size: 0.78rem !important;
+                    font-weight: 500 !important;
+                    min-height: 36px !important;
+                    height: auto !important;
+                    white-space: nowrap !important;
+                    overflow: hidden !important;
+                    text-overflow: ellipsis !important;
+                    width: 100% !important;
+                }
+            }
+
             /* Form Inputs, Selectboxes & Text Inputs */
             div[data-baseweb="input"],
             div[data-baseweb="select"] > div {

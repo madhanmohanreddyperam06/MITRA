@@ -133,3 +133,41 @@ class AuthService:
 
         if len(password) > 128:
             raise MITRAError("Password is too long (max 128 characters)")
+
+    def create_admin_user(self, username: str, email: str, password: str, full_name: Optional[str] = None) -> Dict[str, Any]:
+        """Create an admin user (only for bootstrap process)."""
+        # Check if admin already exists
+        admin_count = self.user_repo.count_admins()
+        if admin_count > 0:
+            raise MITRAError("Administrator already exists")
+
+        # Normalize email
+        email = email.lower().strip()
+
+        # Check if email already exists
+        if self.user_repo.get_by_email(email):
+            raise MITRAError("Email already registered")
+
+        # Check if username already exists
+        if self.user_repo.get_by_username(username):
+            raise MITRAError("Username already taken")
+
+        # Validate password
+        self._validate_password(password)
+
+        # Hash password
+        password_hash = self.hash_password(password)
+
+        # Create admin user
+        user_data = {
+            'username': username,
+            'email': email,
+            'password_hash': password_hash,
+            'full_name': full_name,
+            'is_active': True,
+            'is_admin': True  # Admin creation only through this method
+        }
+
+        user = self.user_repo.create_user(user_data)
+        logger.info(f"Admin user created: {username} ({email})")
+        return user

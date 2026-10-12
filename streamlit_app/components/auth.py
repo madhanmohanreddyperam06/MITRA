@@ -17,7 +17,7 @@ class AuthComponent:
             <style>
                 /* Hide sidebar on auth/landing pages */
                 [data-testid="stSidebar"] { display: none; }
-                
+
                 /* Pitch Dark Canvas Background */
                 .stApp {
                     background: #0c0b12 !important;
@@ -29,17 +29,18 @@ class AuthComponent:
                 .mitra-title-bar {
                     background-color: #231f32;
                     border: 1px solid #382f4f;
+                    border-top: 3px solid #6d28d9;
                     border-radius: 4px;
-                    padding: 16px 24px;
+                    padding: 4px 24px;
                     text-align: center;
-                    margin-bottom: 20px;
-                    margin-top: 50px;
+                    margin-bottom: 10px;
+                    margin-top: 20px;
                     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
                 }
 
                 .mitra-title-text {
                     color: #ffffff !important;
-                    font-size: 1.75rem !important;
+                    font-size: 1.25rem !important;
                     font-weight: bold !important;
                     font-family: Georgia, "Times New Roman", Times, serif;
                     margin: 0 !important;
@@ -50,8 +51,22 @@ class AuthComponent:
                 .mitra-prompt {
                     color: #cbd5e1;
                     font-size: 0.88rem;
-                    margin-bottom: 12px;
+                    margin-top: 280px;
+                    margin-bottom: 14px;
                     font-weight: 500;
+                    text-align: center;
+                }
+
+                /* Tagline styling between header title and buttons */
+                .mitra-tagline {
+                    color: #a5b4fc;
+                    font-size: 1.05rem;
+                    font-weight: 500;
+                    text-align: center;
+                    margin-top: 18px;
+                    margin-bottom: 24px;
+                    line-height: 1.5;
+                    letter-spacing: 0.2px;
                 }
 
                 /* Compact Button Styling (Not long or big) */
@@ -87,6 +102,55 @@ class AuthComponent:
                     border-color: #7c3aed !important;
                 }
 
+                /* Mobile view - side-by-side buttons with reduced size */
+                @media (max-width: 768px) {
+                    /* Prevent Streamlit columns from stacking vertically on mobile */
+                    [data-testid="stHorizontalBlock"],
+                    div[class*="stHorizontalBlock"] {
+                        display: flex !important;
+                        flex-direction: row !important;
+                        flex-wrap: nowrap !important;
+                        width: 100% !important;
+                        gap: 6px !important;
+                        align-items: center !important;
+                    }
+
+                    /* Hide empty outer spacer columns on mobile to maximize button row width */
+                    [data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:not(:has(button)):not(:has(h1)):not(:has(p)):not(:has(form)):not(:has(input)):not(:has(span)),
+                    [data-testid="stHorizontalBlock"] > [data-testid="column"]:not(:has(button)):not(:has(h1)):not(:has(p)):not(:has(form)):not(:has(input)):not(:has(span)),
+                    div[class*="stHorizontalBlock"] > div[class*="stColumn"]:not(:has(button)):not(:has(h1)):not(:has(p)):not(:has(form)):not(:has(input)):not(:has(span)) {
+                        display: none !important;
+                        width: 0 !important;
+                        flex: 0 0 0px !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                    }
+
+                    /* Active columns take equal space side-by-side */
+                    [data-testid="stHorizontalBlock"] > [data-testid="stColumn"],
+                    [data-testid="stHorizontalBlock"] > [data-testid="column"],
+                    div[class*="stHorizontalBlock"] > div[class*="stColumn"],
+                    [data-testid="stColumn"],
+                    [data-testid="column"] {
+                        width: auto !important;
+                        min-width: 0 !important;
+                        flex: 1 1 0% !important;
+                    }
+
+                    /* Reduce button font size, padding, and height so login, register, guest buttons fit side-by-side */
+                    div.stButton > button {
+                        padding: 6px 4px !important;
+                        font-size: 0.78rem !important;
+                        font-weight: 500 !important;
+                        min-height: 36px !important;
+                        height: auto !important;
+                        white-space: nowrap !important;
+                        overflow: hidden !important;
+                        text-overflow: ellipsis !important;
+                        width: 100% !important;
+                    }
+                }
+
                 /* Footer link matching reference image */
                 .mitra-footer-link {
                     color: #94a3b8;
@@ -119,7 +183,7 @@ class AuthComponent:
 
     def render_landing_page(self):
         """Display a minimal, compact dark-themed Landing Page matching the reference image."""
-        
+
         # Centered container matching reference proportions
         col_outer1, col_center, col_outer2 = st.columns([1, 4, 1])
 
@@ -134,27 +198,37 @@ class AuthComponent:
                 unsafe_allow_html=True
             )
 
+            # Tagline in between header title and button section
+            st.markdown(
+                """
+                <div class="mitra-tagline">
+                    Your Intelligent Assistant for Institution information, guidance and support.
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
             # Subtitle Prompt
             st.markdown(
-                "<p class='mitra-prompt'>Select an option below to start your session:</p>",
+                "<p class='mitra-prompt' style='margin-top: 120px;'>Select an option below to start your session:</p>",
                 unsafe_allow_html=True
             )
 
             # Action Buttons (Compact row)
-            btn1, btn2, btn3 = st.columns(3)
-            
-            with btn1:
-                if st.button("🔑 Login", type="primary", use_container_width=True):
+            col1, col2, col3 = st.columns([1, 1, 1])
+
+            with col1:
+                if st.button("Login", type="primary", use_container_width=True, key="landing_login"):
                     st.session_state.auth_page = "login"
                     st.rerun()
 
-            with btn2:
-                if st.button("📝 Register", use_container_width=True):
+            with col2:
+                if st.button("Register", use_container_width=True, key="landing_register"):
                     st.session_state.auth_page = "register"
                     st.rerun()
 
-            with btn3:
-                if st.button("👤 Guest Access", use_container_width=True):
+            with col3:
+                if st.button("Guest Access", use_container_width=True, key="landing_guest"):
                     st.session_state.authenticated = True
                     st.session_state.guest_mode = True
                     st.rerun()
@@ -172,21 +246,30 @@ class AuthComponent:
 
 
 
+
     def render_login_page(self):
         """Display dedicated Login page."""
         col1, col2, col3 = st.columns([1, 3, 1])
 
         with col2:
-            st.title("🔑 Account Login")
+            # Title Bar with upperline
+            st.markdown(
+                """
+                <div class="mitra-title-bar">
+                    <h1 class="mitra-title-text">Login to your Account</h1>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
             st.caption("Sign in to access your MITRA dashboard and personalized assistant.")
             st.write("")
 
-            with st.container(border=True):
+            with st.container():
                 with st.form("login_form"):
                     username_or_email = st.text_input("Username or Email", placeholder="Enter your username or email")
                     password = st.text_input("Password", type="password", placeholder="Enter your password")
-                    
-                    submitted = st.form_submit_button("Sign In", type="primary", use_container_width=True)
+
+                    submitted = st.form_submit_button("Sign In", type="primary", use_container_width=True, key="login_submit")
 
                     if submitted:
                         if not username_or_email or not password:
@@ -207,15 +290,15 @@ class AuthComponent:
             # Navigation links
             nav1, nav2, nav3 = st.columns([1, 1, 1])
             with nav1:
-                if st.button("⬅️ Back to Landing", use_container_width=True):
+                if st.button("Back to Landing", use_container_width=True, key="login_back"):
                     st.session_state.auth_page = "landing"
                     st.rerun()
             with nav2:
-                if st.button("📝 Need an account? Register", use_container_width=True):
+                if st.button("Need an account? Register", use_container_width=True, key="login_to_register"):
                     st.session_state.auth_page = "register"
                     st.rerun()
             with nav3:
-                if st.button("👤 Continue as Guest", use_container_width=True):
+                if st.button("Continue as Guest", use_container_width=True, key="login_guest"):
                     st.session_state.authenticated = True
                     st.session_state.guest_mode = True
                     st.rerun()
@@ -225,7 +308,15 @@ class AuthComponent:
         col1, col2, col3 = st.columns([1, 3, 1])
 
         with col2:
-            st.title("📝 Create Account")
+            # Title Bar with upperline
+            st.markdown(
+                """
+                <div class="mitra-title-bar">
+                    <h1 class="mitra-title-text">Create Account</h1>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
             st.caption("Register for a new MITRA account to unlock all features.")
             st.write("")
 
@@ -237,7 +328,7 @@ class AuthComponent:
                     reg_password = st.text_input("Password (minimum 8 characters)", type="password", placeholder="Password")
                     reg_confirm = st.text_input("Confirm Password", type="password", placeholder="Re-enter password")
 
-                    reg_submitted = st.form_submit_button("Create Account", type="primary", use_container_width=True)
+                    reg_submitted = st.form_submit_button("Create Account", type="primary", use_container_width=True, key="register_submit")
 
                     if reg_submitted:
                         if not reg_username or not reg_email or not reg_password:
@@ -252,8 +343,8 @@ class AuthComponent:
                                 st.session_state.registration_success = True
 
             if st.session_state.get("registration_success"):
-                st.success("🎉 Registration successful! You can now log in with your credentials.")
-                if st.button("🔑 Proceed to Login", type="primary", use_container_width=True):
+                st.success("Registration successful! You can now log in with your credentials.")
+                if st.button("Proceed to Login", type="primary", use_container_width=True, key="register_to_login"):
                     st.session_state.registration_success = False
                     st.session_state.auth_page = "login"
                     st.session_state.is_admin = False
@@ -263,12 +354,12 @@ class AuthComponent:
             # Navigation links
             nav1, nav2 = st.columns([1, 1])
             with nav1:
-                if st.button("⬅️ Back to Landing", use_container_width=True):
+                if st.button("Back to Landing", use_container_width=True, key="register_back"):
                     st.session_state.auth_page = "landing"
                     st.session_state.registration_success = False
                     st.rerun()
             with nav2:
-                if st.button("🔑 Already registered? Login", use_container_width=True):
+                if st.button("Already registered? Login", use_container_width=True, key="register_to_login2"):
                     st.session_state.auth_page = "login"
                     st.session_state.registration_success = False
                     st.rerun()
@@ -407,4 +498,3 @@ class AuthComponent:
 
                     if st.button("🚪 Logout", type="secondary", use_container_width=True):
                         self.logout()
-

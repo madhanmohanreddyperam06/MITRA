@@ -85,7 +85,8 @@ class UserRepository:
                 email=user_data['email'],
                 password_hash=user_data['password_hash'],
                 full_name=user_data.get('full_name'),
-                is_active=user_data.get('is_active', True)
+                is_active=user_data.get('is_active', True),
+                is_admin=user_data.get('is_admin', False)
             )
             self.db.add(user)
             self.db.commit()
@@ -142,6 +143,16 @@ class UserRepository:
             self.db.rollback()
             raise DatabaseError(f"Failed to update last login: {e}")
 
+    def count_admins(self) -> int:
+        """Count the number of admin users."""
+        try:
+            result = self.db.execute(
+                select(User).where(User.is_admin == True)
+            )
+            return len(result.scalars().all())
+        except Exception as e:
+            raise DatabaseError(f"Failed to count admins: {e}")
+
     def _user_to_dict(self, user: User) -> Dict[str, Any]:
         """Convert User model to dictionary (excluding sensitive fields)."""
         return {
@@ -150,6 +161,7 @@ class UserRepository:
             "email": user.email,
             "full_name": user.full_name,
             "is_active": user.is_active,
+            "is_admin": user.is_admin,
             "created_at": user.created_at.isoformat() if user.created_at else None,
             "updated_at": user.updated_at.isoformat() if user.updated_at else None,
             "last_login_at": user.last_login_at.isoformat() if user.last_login_at else None
