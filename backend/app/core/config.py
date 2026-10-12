@@ -21,12 +21,19 @@ class Settings(BaseSettings):
     DATABASE_URL: str = Field(default="mysql+pymysql://mitra_user:password@localhost:3306/mitra_db")
 
     # Authentication
-    JWT_SECRET_KEY: str = Field(default=None)  # No default - must be set
+    JWT_SECRET_KEY: str = Field(default="dev-secret-change-in-production")  # Development default, override in production
     JWT_ALGORITHM: str = Field(default="HS256")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(default=30)
 
     # CORS
-    CORS_ALLOWED_ORIGINS: List[str] = Field(default=["http://localhost:8501"])
+    CORS_ALLOWED_ORIGINS: str = Field(default="http://localhost:8501")
+
+    @property
+    def cors_origins_list(self) -> List[str]:
+        """Parse CORS origins from comma-separated string."""
+        if isinstance(self.CORS_ALLOWED_ORIGINS, str):
+            return [origin.strip() for origin in self.CORS_ALLOWED_ORIGINS.split(",")]
+        return self.CORS_ALLOWED_ORIGINS
 
     # NLP
     SPACY_MODEL: str = Field(default="en_core_web_sm")
