@@ -1,12 +1,16 @@
 """Authentication component for Streamlit frontend."""
 import streamlit as st
 import requests
+import os
 
 
 class AuthComponent:
     """Handle authentication in Streamlit app."""
 
-    def __init__(self, api_base_url="http://localhost:8000"):
+    def __init__(self, api_base_url=None):
+        # Use environment variable if available, otherwise default to localhost
+        if api_base_url is None:
+            api_base_url = os.getenv("BACKEND_URL", "http://localhost:8000")
         self.api_base_url = api_base_url
 
     def render_auth_flow(self):

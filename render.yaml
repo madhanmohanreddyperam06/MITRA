@@ -16,7 +16,16 @@ services:
       - key: DEBUG
         value: false
       - key: CORS_ALLOWED_ORIGINS
-        value: https://your-frontend-domain.onrender.com
+        value: https://mitra-frontend.onrender.com
+
+  - type: web
+    name: mitra-frontend
+    env: python
+    buildCommand: cd frontend && pip install -r requirements.txt
+    startCommand: cd frontend && streamlit run main.py --server.port=$PORT --server.address=0.0.0.0
+    envVars:
+      - key: BACKEND_URL
+        value: https://mitra-backend.onrender.com
 
 databases:
   - name: mitra-db

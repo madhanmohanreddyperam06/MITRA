@@ -1,11 +1,13 @@
 import streamlit as st
 import requests
 import json
+import os
 from datetime import datetime
 
 class ChatInterface:
     def __init__(self):
-        self.api_base_url = "http://localhost:8000"
+        # Use environment variable if available, otherwise default to localhost
+        self.api_base_url = os.getenv("BACKEND_URL", "http://localhost:8000")
 
     def get_auth_headers(self):
         """Get authorization headers if user is authenticated."""
