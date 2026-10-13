@@ -1,16 +1,11 @@
-import spacy
 import re
 from typing import Dict, List, Any
 import json
 
 class NLPPipeline:
     def __init__(self):
-        # Load spaCy model (you might need to install: python -m spacy download en_core_web_sm)
-        try:
-            self.nlp = spacy.load("en_core_web_sm")
-        except OSError:
-            print("spaCy model not found. Please install: python -m spacy download en_core_web_sm")
-            self.nlp = None
+        # spaCy removed - using rule-based entity extraction only
+        self.nlp = None
 
         # Intent patterns (simple rule-based for demo)
         self.intent_patterns = {
@@ -106,20 +101,8 @@ class NLPPipeline:
             return "general_info"
 
     def _extract_entities(self, text: str) -> List[Dict[str, str]]:
-        """Extract entities from text"""
+        """Extract entities from text using rule-based extraction"""
         entities = []
-
-        if self.nlp is None:
-            return entities
-
-        doc = self.nlp(text)
-
-        for ent in doc.ents:
-            entities.append({
-                "text": ent.text,
-                "label": ent.label_,
-                "description": spacy.explain(ent.label_) or ent.label_
-            })
 
         # Extract custom entities specific to college domain
         college_entities = self._extract_college_entities(text)
