@@ -27,9 +27,7 @@ def upgrade() -> None:
         sa.Column('category', sa.String(length=100), nullable=True),
         sa.Column('information', sa.String(length=255), nullable=True),
         sa.Column('details', sa.Text(), nullable=True),
-        sa.PrimaryKeyConstraint('id'),
-        mysql_charset='utf8mb4',
-        mysql_collate='utf8mb4_unicode_ci'
+        sa.PrimaryKeyConstraint('id')
     )
     op.create_index('ix_admissions_category', 'admissions', ['category'], unique=False)
 
@@ -42,9 +40,7 @@ def upgrade() -> None:
         sa.Column('duration', sa.String(length=100), nullable=True),
         sa.Column('eligibility', sa.String(length=255), nullable=True),
         sa.Column('description', sa.Text(), nullable=True),
-        sa.PrimaryKeyConstraint('id'),
-        mysql_charset='utf8mb4',
-        mysql_collate='utf8mb4_unicode_ci'
+        sa.PrimaryKeyConstraint('id')
     )
     op.create_index('ix_courses_course_name', 'courses', ['course_name'], unique=False)
     op.create_index('ix_courses_department', 'courses', ['department'], unique=False)
@@ -58,9 +54,7 @@ def upgrade() -> None:
         sa.Column('description', sa.Text(), nullable=True),
         sa.Column('location', sa.String(length=255), nullable=True),
         sa.Column('timings', sa.String(length=100), nullable=True),
-        sa.PrimaryKeyConstraint('id'),
-        mysql_charset='utf8mb4',
-        mysql_collate='utf8mb4_unicode_ci'
+        sa.PrimaryKeyConstraint('id')
     )
     op.create_index('ix_facilities_facility_name', 'facilities', ['facility_name'], unique=False)
     op.create_index('ix_facilities_category', 'facilities', ['category'], unique=False)
@@ -74,9 +68,7 @@ def upgrade() -> None:
         sa.Column('phone', sa.String(length=50), nullable=True),
         sa.Column('email', sa.String(length=255), nullable=True),
         sa.Column('office_location', sa.String(length=255), nullable=True),
-        sa.PrimaryKeyConstraint('id'),
-        mysql_charset='utf8mb4',
-        mysql_collate='utf8mb4_unicode_ci'
+        sa.PrimaryKeyConstraint('id')
     )
     op.create_index('ix_contact_info_department', 'contact_info', ['department'], unique=False)
 
@@ -86,9 +78,7 @@ def upgrade() -> None:
         sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
         sa.Column('question', sa.String(length=500), nullable=False),
         sa.Column('answer', sa.Text(), nullable=False),
-        sa.PrimaryKeyConstraint('id'),
-        mysql_charset='utf8mb4',
-        mysql_collate='utf8mb4_unicode_ci'
+        sa.PrimaryKeyConstraint('id')
     )
     op.create_index('ix_qa_dataset_question', 'qa_dataset', ['question'], unique=False)
 

@@ -30,11 +30,9 @@ def upgrade() -> None:
         sa.Column('is_active', sa.Boolean(), nullable=False, server_default='1'),
         sa.Column('is_admin', sa.Boolean(), nullable=False, server_default='0'),
         sa.Column('created_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
-        sa.Column('updated_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')),
+        sa.Column('updated_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
         sa.Column('last_login_at', sa.DateTime(), nullable=True),
-        sa.PrimaryKeyConstraint('id'),
-        mysql_charset='utf8mb4',
-        mysql_collate='utf8mb4_unicode_ci'
+        sa.PrimaryKeyConstraint('id')
     )
     op.create_index('ix_users_username', 'users', ['username'], unique=True)
     op.create_index('ix_users_email', 'users', ['email'], unique=True)
