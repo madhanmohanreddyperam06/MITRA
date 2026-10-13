@@ -55,12 +55,14 @@ async def login(
     Returns a JWT access token.
     """
     try:
+        logger.info(f"Login attempt for: {login_data.username_or_email}")
         user = auth_service.authenticate_user(
             username_or_email=login_data.username_or_email,
             password=login_data.password
         )
 
         if not user:
+            logger.warning(f"Authentication failed for: {login_data.username_or_email}")
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Incorrect username or password",
@@ -72,14 +74,15 @@ async def login(
             data={"sub": str(user['id'])}
         )
 
+        logger.info(f"Login successful for: {login_data.username_or_email}")
         return TokenResponse(access_token=access_token)
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Login error: {e}")
+        logger.error(f"Login error: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Login failed"
+            detail=f"Login failed: {str(e)}"
         )
 
 
@@ -92,6 +95,30 @@ async def get_current_user_info(
     Requires authentication.
     """
     return current_user
+
+
+@router.get("/debug/admin-check")
+async def debug_admin_check(
+    auth_service: AuthService = Depends(get_auth_service)
+):
+    """
+    Debug endpoint to check admin user status.
+    """
+    try:
+        admin_count = auth_service.user_repo.count_admins()
+        admin_user = auth_service.user_repo.get_by_username_with_hash("admin")
+        
+        return {
+            "admin_count": admin_count,
+            "admin_exists": admin_user is not None,
+            "admin_username": admin_user.username if admin_user else None,
+            "admin_email": admin_user.email if admin_user else None,
+            "admin_active": admin_user.is_active if admin_user else None,
+            "admin_is_admin": admin_user.is_admin if admin_user else None,
+            "password_hash_length": len(admin_user.password_hash) if admin_user else 0
+        }
+    except Exception as e:
+        return {"error": str(e)}
 
 
 # User management endpoints (admin functions) - moved to separate router
