@@ -18,16 +18,14 @@ class AuthService:
 
     def hash_password(self, password: str) -> str:
         """Hash a password using bcrypt."""
-        # Truncate password to 72 characters (bcrypt limit)
-        if len(password) > 72:
-            password = password[:72]
+        # Truncate password to 72 characters BEFORE passing to bcrypt (passlib check)
+        password = password[:72] if len(password) > 72 else password
         return self.pwd_context.hash(password)
 
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
         """Verify a password against its hash."""
-        # Truncate password to 72 characters (bcrypt limit)
-        if len(plain_password) > 72:
-            plain_password = plain_password[:72]
+        # Truncate password to 72 characters BEFORE passing to bcrypt (passlib check)
+        plain_password = plain_password[:72] if len(plain_password) > 72 else plain_password
         return self.pwd_context.verify(plain_password, hashed_password)
 
     def create_access_token(self, data: Dict[str, Any], expires_delta: Optional[timedelta] = None) -> str:
@@ -79,7 +77,7 @@ class AuthService:
         # Validate password
         self._validate_password(password)
 
-        # Hash password
+        # Hash password (truncates to 72 chars)
         password_hash = self.hash_password(password)
 
         # Create user (always as normal user, never admin)
@@ -161,7 +159,7 @@ class AuthService:
         # Validate password
         self._validate_password(password)
 
-        # Hash password
+        # Hash password (truncates to 72 chars)
         password_hash = self.hash_password(password)
 
         # Create admin user
