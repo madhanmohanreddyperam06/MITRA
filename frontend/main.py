@@ -38,7 +38,7 @@ def main():
         return
 
     # User is authenticated or continuing as guest - show main application dashboard
-    st.title("🎓 MITRA Dashboard")
+    st.title("MITRA")
 
     if st.session_state.get("guest_mode"):
         st.info("💡 You are exploring in **Guest Mode**. Ask any question about admissions, courses, or facilities! To save account state, use the sidebar to log in or register.")
@@ -50,9 +50,6 @@ def main():
             st.success(f"👋 Welcome back, **{user.get('username')}**!")
         else:
             st.markdown("Welcome to your intelligent college assistant!")
-
-    # Display logout button in sidebar
-    auth.display_logout_button()
 
     # Create sidebar controls & navigation
     create_sidebar()

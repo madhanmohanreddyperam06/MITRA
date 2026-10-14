@@ -18,10 +18,16 @@ class AuthService:
 
     def hash_password(self, password: str) -> str:
         """Hash a password using bcrypt."""
+        # Truncate password to 72 characters (bcrypt limit)
+        if len(password) > 72:
+            password = password[:72]
         return self.pwd_context.hash(password)
 
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
         """Verify a password against its hash."""
+        # Truncate password to 72 characters (bcrypt limit)
+        if len(plain_password) > 72:
+            plain_password = plain_password[:72]
         return self.pwd_context.verify(plain_password, hashed_password)
 
     def create_access_token(self, data: Dict[str, Any], expires_delta: Optional[timedelta] = None) -> str:
@@ -131,8 +137,8 @@ class AuthService:
         if len(password) < 8:
             raise MITRAError("Password must be at least 8 characters long")
 
-        if len(password) > 128:
-            raise MITRAError("Password is too long (max 128 characters)")
+        if len(password) > 72:
+            raise MITRAError("Password is too long (max 72 characters for bcrypt)")
 
     def create_admin_user(self, username: str, email: str, password: str, full_name: Optional[str] = None) -> Dict[str, Any]:
         """Create an admin user (only for bootstrap process)."""

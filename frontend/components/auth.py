@@ -265,7 +265,7 @@ class AuthComponent:
                 """,
                 unsafe_allow_html=True
             )
-            st.caption("Sign in to access your MITRA dashboard and personalized assistant.")
+            st.caption("Sign in to access your personalized assistant")
             st.write("")
 
             with st.container():
@@ -321,7 +321,7 @@ class AuthComponent:
                 """,
                 unsafe_allow_html=True
             )
-            st.caption("Register for a new MITRA account to unlock all features.")
+            st.caption("Register for an account to unlock all features")
             st.write("")
 
             with st.container(border=True):
