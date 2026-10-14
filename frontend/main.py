@@ -23,51 +23,6 @@ if 'guest_mode' not in st.session_state:
     st.session_state.guest_mode = False
 if 'auth_page' not in st.session_state:
     st.session_state.auth_page = 'landing'  # 'landing', 'login', 'register'
-if 'current_page' not in st.session_state:
-    st.session_state.current_page = 'chat'  # 'chat', 'admissions', 'courses', 'facilities'
-
-
-def render_page_content():
-    """Render content based on current page selection"""
-    current_page = st.session_state.get('current_page', 'chat')
-    
-    if current_page == 'chat':
-        # Main chat interface
-        chat_interface = ChatInterface()
-        chat_interface.display_chat()
-    
-    elif current_page == 'admissions':
-        st.title("📋 Admissions Information")
-        st.markdown("---")
-        
-        # Add admissions-specific content
-        st.info("💡 Ask me anything about admissions, eligibility, application process, deadlines, etc.")
-        
-        # Chat interface for admissions
-        chat_interface = ChatInterface()
-        chat_interface.display_chat()
-    
-    elif current_page == 'courses':
-        st.title("📚 Course Information")
-        st.markdown("---")
-        
-        # Add courses-specific content
-        st.info("💡 Ask me about available courses, syllabus, duration, eligibility, etc.")
-        
-        # Chat interface for courses
-        chat_interface = ChatInterface()
-        chat_interface.display_chat()
-    
-    elif current_page == 'facilities':
-        st.title("🏗️ Campus Facilities")
-        st.markdown("---")
-        
-        # Add facilities-specific content
-        st.info("💡 Ask me about library, hostel, sports, labs, and other campus facilities.")
-        
-        # Chat interface for facilities
-        chat_interface = ChatInterface()
-        chat_interface.display_chat()
 
 
 def main():
@@ -83,6 +38,8 @@ def main():
         return
 
     # User is authenticated or continuing as guest - show main application dashboard
+    st.title("🎓 MITRA Dashboard")
+
     if st.session_state.get("guest_mode"):
         st.info("💡 You are exploring in **Guest Mode**. Ask any question about admissions, courses, or facilities! To save account state, use the sidebar to log in or register.")
     else:
@@ -94,11 +51,15 @@ def main():
         else:
             st.markdown("Welcome to your intelligent college assistant!")
 
+    # Display logout button in sidebar
+    auth.display_logout_button()
+
     # Create sidebar controls & navigation
     create_sidebar()
 
-    # Render page content based on selection
-    render_page_content()
+    # Main chat interface
+    chat_interface = ChatInterface()
+    chat_interface.display_chat()
 
 
 if __name__ == "__main__":
