@@ -25,7 +25,7 @@ services:
     startCommand: cd frontend && streamlit run main.py --server.port=$PORT --server.address=0.0.0.0
     envVars:
       - key: BACKEND_URL
-        value: https://mitra-backend.onrender.com
+        value: https://mitra-tu0f.onrender.com
 
 databases:
   - name: mitra-db
