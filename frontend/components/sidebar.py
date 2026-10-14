@@ -156,16 +156,6 @@ def create_sidebar():
             with col2:
                 if st.button("Download", use_container_width=True, key="settings_download"):
                     download_chat()
-            
-            col1, col2 = st.columns(2)
-            with col1:
-                if st.button("Clear", use_container_width=True, key="settings_clear"):
-                    st.session_state.messages = []
-                    st.session_state.user_context = {}
-                    st.rerun()
-            with col2:
-                if st.button("Download", use_container_width=True, key="settings_download"):
-                    download_chat()
 
         st.markdown("---")
 
