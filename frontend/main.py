@@ -1,13 +1,18 @@
 import streamlit as st
+import importlib
+import components.auth
+import components.theme
+importlib.reload(components.auth)
+importlib.reload(components.theme)
 from components.chat_interface import ChatInterface
 from components.sidebar import create_sidebar
 from components.auth import AuthComponent
 from components.theme import apply_global_theme
 
-# Page config
+# Page config - MITRA Helpdesk Assistant
 st.set_page_config(
-    page_title="MITRA Helpdesk",
-    page_icon="🎓",
+    page_title="MITRA - Your Intelligent Institution Helpdesk Assisstant",
+    page_icon=None,
     layout="wide",
     initial_sidebar_state="expanded"
 )

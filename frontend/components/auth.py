@@ -22,11 +22,49 @@ class AuthComponent:
                 /* Hide sidebar on auth/landing pages */
                 [data-testid="stSidebar"] { display: none; }
 
+                /* Prevent vertical scroll and fix viewport */
+                html, body {
+                    overflow: hidden !important;
+                    height: 100vh !important;
+                    margin: 0 !important;
+                    padding: 0 !important;
+                }
+
+                [data-testid="stAppViewContainer"],
+                .stApp,
+                [data-testid="stMain"],
+                .main {
+                    overflow: hidden !important;
+                    height: 100vh !important;
+                    max-height: 100vh !important;
+                }
+
                 /* Pitch Dark Canvas Background */
                 .stApp {
                     background: #0c0b12 !important;
                     color: #e2e8f0;
                     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                }
+
+                /* Center content vertically in the middle of page */
+                [data-testid="stMainBlockContainer"],
+                .main .block-container {
+                    height: 100vh !important;
+                    max-height: 100vh !important;
+                    padding-top: 0 !important;
+                    padding-bottom: 0 !important;
+                    display: flex !important;
+                    flex-direction: column !important;
+                    justify-content: center !important;
+                    align-items: center !important;
+                }
+
+                [data-testid="stMainBlockContainer"] > [data-testid="stVerticalBlock"],
+                .main .block-container > [data-testid="stVerticalBlock"] {
+                    width: 100% !important;
+                    display: flex !important;
+                    flex-direction: column !important;
+                    justify-content: center !important;
                 }
 
                 /* Title Bar matching reference image style */
@@ -35,10 +73,10 @@ class AuthComponent:
                     border: 1px solid #382f4f;
                     border-top: 3px solid #6d28d9;
                     border-radius: 4px;
-                    padding: 4px 24px;
+                    padding: 6px 24px;
                     text-align: center;
-                    margin-bottom: 10px;
-                    margin-top: 20px;
+                    margin-bottom: 0px;
+                    margin-top: 0px;
                     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
                 }
 
@@ -51,11 +89,11 @@ class AuthComponent:
                     letter-spacing: -0.3px;
                 }
 
-                /* Subtitle prompt matching reference prompt style */
+                /* Subtitle prompt matching reference prompt style - compact spacing */
                 .mitra-prompt {
                     color: #cbd5e1;
                     font-size: 0.88rem;
-                    margin-top: 280px;
+                    margin-top: 14px;
                     margin-bottom: 14px;
                     font-weight: 500;
                     text-align: center;
@@ -67,8 +105,8 @@ class AuthComponent:
                     font-size: 1.05rem;
                     font-weight: 500;
                     text-align: center;
-                    margin-top: 18px;
-                    margin-bottom: 24px;
+                    margin-top: 12px;
+                    margin-bottom: 14px;
                     line-height: 1.5;
                     letter-spacing: 0.2px;
                 }
@@ -196,7 +234,7 @@ class AuthComponent:
             st.markdown(
                 """
                 <div class="mitra-title-bar">
-                    <h1 class="mitra-title-text">Welcome to MITRA Helpdesk!</h1>
+                    <h1 class="mitra-title-text">Welcome to MITRA</h1>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -214,7 +252,7 @@ class AuthComponent:
 
             # Subtitle Prompt
             st.markdown(
-                "<p class='mitra-prompt' style='margin-top: 120px;'>Select an option below to start your session:</p>",
+                "<p class='mitra-prompt'>Select an option below to start your session:</p>",
                 unsafe_allow_html=True
             )
 
