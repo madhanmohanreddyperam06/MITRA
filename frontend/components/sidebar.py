@@ -21,40 +21,49 @@ def create_sidebar():
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
             }
-            .quick-access-btn {
-                width: 100%;
-                margin: 4px 0;
-                padding: 8px 12px;
-                border-radius: 6px;
-                border: 1px solid #362e4c;
-                background: #221e31;
-                color: #e2e8f0;
-                font-size: 0.85rem;
-                text-align: left;
-            }
-            .quick-access-btn:hover {
-                background: #312a47;
-                border-color: #6366f1;
-            }
             .new-chat-btn {
                 width: 100%;
-                padding: 12px;
+                padding: 8px;
                 border-radius: 8px;
                 border: 2px solid #6d28d9;
                 background: #4c1d95;
                 color: #ffffff;
                 font-weight: 600;
                 font-size: 0.95rem;
-                margin-bottom: 15px;
+                margin-bottom: 10px;
             }
             .new-chat-btn:hover {
                 background: #5b21b6;
                 border-color: #7c3aed;
             }
             .account-section {
-                margin-top: 20px;
-                padding-top: 15px;
-                border-top: 2px solid #6d28d9;
+                margin-top: 0px;
+                padding-top: 0px;
+            }
+            /* Reduce spacing around New Chat button */
+            .stButton > button {
+                margin-top: 0px !important;
+                margin-bottom: 0px !important;
+                padding: 8px !important;
+            }
+            div[data-testid="stVerticalBlock"] > div[data-testid="stVerticalBlock"] {
+                gap: 0.5rem !important;
+            }
+            section[data-testid="stSidebar"] > div {
+                padding-top: 0rem !important;
+                padding-bottom: 0rem !important;
+            }
+            /* Remove space above and below button container */
+            div[data-testid="stVerticalBlock"] > div:has(.stButton) {
+                margin-top: 0px !important;
+                margin-bottom: 0px !important;
+            }
+            /* Fix expander arrow icons - use font that supports arrows */
+            div[data-testid="stExpander"] > div > div > button {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+            }
+            div[data-testid="stExpander"] svg {
+                fill: #e2e8f0 !important;
             }
         </style>
         """, unsafe_allow_html=True)
@@ -62,76 +71,20 @@ def create_sidebar():
         # ============================================
         # 1. New Chat (Prominent Action)
         # ============================================
-        if st.button("➕ New Chat", use_container_width=True, key="new_chat"):
+        if st.button("➕ New Chat", width='stretch', key="new_chat"):
             st.session_state.messages = []
             st.session_state.user_context = {}
             st.rerun()
 
-        # ============================================
-        # 3. Quick Access (College Topics)
-        # ============================================
-        st.markdown('<div class="sidebar-header">Quick Access</div>', unsafe_allow_html=True)
-        
-        quick_access_items = [
-            ("Admissions", "Tell me about college admission requirements"),
-            ("Courses & Programs", "What courses does the college offer?"),
-            ("Fees & Scholarships", "What is the fee structure and available scholarships?"),
-            ("Hostel & Facilities", "Tell me about hostel facilities"),
-            ("Placements", "What are the placement statistics and companies?"),
-            ("Contact Information", "How can I contact different departments?"),
-        ]
-        
-        for label, question in quick_access_items:
-            if st.button(label, use_container_width=True, key=f"qa_{label}"):
-                st.session_state.messages.append({
-                    "role": "user",
-                    "content": question
-                })
-                st.rerun()
+        if st.button("Clear Chat", width='stretch', key="clear_chat"):
+            st.session_state.messages = []
+            st.session_state.user_context = {}
+            st.rerun()
 
         st.markdown("---")
 
         # ============================================
-        # 4. Conversation History (Placeholder for Phase 2)
-        # ============================================
-        st.markdown('<div class="sidebar-header">Conversations</div>', unsafe_allow_html=True)
-        
-        # For now, show current session info
-        if st.session_state.messages:
-            msg_count = len(st.session_state.messages)
-            st.caption(f"Current session: {msg_count} message(s)")
-        else:
-            st.caption("No active conversation")
-        
-        # Future: Add conversation history with dates
-        # Today
-        #   • Admission requirements
-        #   • CSE course details
-        # Yesterday
-        #   • Hostel information
-
-        st.markdown("---")
-
-        # ============================================
-        # 7. Student Type / User Context
-        # ============================================
-        st.markdown('<div class="sidebar-header">Your Profile</div>', unsafe_allow_html=True)
-        
-        st.caption("I am a:")
-        student_type = st.radio(
-            "Select student type",
-            ["Prospective Student", "Current Student", "Parent/Guardian", "Alumni"],
-            label_visibility="collapsed",
-            key="student_type_radio"
-        )
-
-        if student_type:
-            st.session_state.user_context["student_type"] = student_type
-
-        st.markdown("---")
-
-        # ============================================
-        # 9. Settings (Simple)
+        # 8. Settings (Simple)
         # ============================================
         st.markdown('<div class="sidebar-header">Settings</div>', unsafe_allow_html=True)
         
@@ -149,18 +102,18 @@ def create_sidebar():
             
             col1, col2 = st.columns(2)
             with col1:
-                if st.button("Clear", use_container_width=True, key="settings_clear"):
+                if st.button("Clear", width='stretch', key="settings_clear"):
                     st.session_state.messages = []
                     st.session_state.user_context = {}
                     st.rerun()
             with col2:
-                if st.button("Download", use_container_width=True, key="settings_download"):
+                if st.button("Download", width='stretch', key="settings_download"):
                     download_chat()
 
         st.markdown("---")
 
         # ============================================
-        # 10. Help & About
+        # 9. Help & About
         # ============================================
         st.markdown('<div class="sidebar-header">Help & About</div>', unsafe_allow_html=True)
         
@@ -172,8 +125,7 @@ def create_sidebar():
             
             **How to use MITRA:**
             - Type your question in the chat
-            - Use Quick Access for common topics
-            - Set your profile for personalized responses
+            - Explore topics using the sidebar navigation pages
             
             **Supported Topics:**
             - Admissions & Eligibility
@@ -185,8 +137,6 @@ def create_sidebar():
             """)
 
         # Spacer to push account section to bottom
-        st.markdown("<br><br>", unsafe_allow_html=True)
-
         # ============================================
         # 5. User Profile Section (at bottom, role-based)
         # ============================================
@@ -204,11 +154,11 @@ def create_sidebar():
             st.info("Guest User")
             col1, col2 = st.columns(2)
             with col1:
-                if st.button("Login", use_container_width=True, key="guest_login"):
+                if st.button("Login", width='stretch', key="guest_login"):
                     st.session_state.auth_page = "login"
                     st.rerun()
             with col2:
-                if st.button("Register", use_container_width=True, key="guest_register"):
+                if st.button("Register", width='stretch', key="guest_register"):
                     st.session_state.auth_page = "register"
                     st.rerun()
         
@@ -229,10 +179,10 @@ def create_sidebar():
                 st.caption(full_name)
             
             # Settings, Help, Logout buttons
-            if st.button("Settings", use_container_width=True, key="user_settings"):
+            if st.button("Settings", width='stretch', key="user_settings"):
                 pass  # Expand settings above
             
-            if st.button("Help & About", use_container_width=True, key="user_help"):
+            if st.button("Help & About", width='stretch', key="user_help"):
                 pass  # Expand help above
             
             # Admin-only options
@@ -248,11 +198,11 @@ def create_sidebar():
                 ]
                 
                 for label, path in admin_options:
-                    if st.button(label, use_container_width=True, key=f"admin_{label}"):
+                    if st.button(label, width='stretch', key=f"admin_{label}"):
                         st.info(f"Admin panel: {path} (Coming soon)")
             
             st.markdown("---")
-            if st.button("Logout", use_container_width=True, key="user_logout"):
+            if st.button("Logout", width='stretch', key="user_logout"):
                 auth = AuthComponent()
                 auth.logout()
 

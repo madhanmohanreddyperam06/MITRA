@@ -41,7 +41,7 @@ def main():
     st.title("MITRA")
 
     if st.session_state.get("guest_mode"):
-        st.info("💡 You are exploring in **Guest Mode**. Ask any question about admissions, courses, or facilities! To save account state, use the sidebar to log in or register.")
+        st.info("💡 You are exploring in **Guest Mode**. Ask any question about admissions, courses, facilities, fees, or placements! To save account state, use the sidebar to log in or register.")
     else:
         user = st.session_state.get("current_user")
         if user and user.get("full_name"):

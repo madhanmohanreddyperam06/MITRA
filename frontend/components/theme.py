@@ -10,7 +10,17 @@ def apply_global_theme():
             .stApp {
                 background-color: #0c0b12 !important;
                 color: #e2e8f0 !important;
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                font-family: "Times New Roman", Times, serif !important;
+            }
+
+            /* Apply Times New Roman to text elements only */
+            body, p, h1, h2, h3, h4, h5, h6, label, input, textarea, select {
+                font-family: "Times New Roman", Times, serif !important;
+            }
+
+            /* Keep system font for UI elements with icons (buttons, expanders) */
+            button, div[data-testid="stExpander"] > div > div > button {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
             }
 
             /* Sidebar Dark Theme Styling */

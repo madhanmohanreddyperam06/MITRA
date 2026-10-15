@@ -222,17 +222,17 @@ class AuthComponent:
             col1, col2, col3 = st.columns([1, 1, 1])
 
             with col1:
-                if st.button("Login", type="primary", use_container_width=True, key="landing_login"):
+                if st.button("Login", type="primary", width='stretch', key="landing_login"):
                     st.session_state.auth_page = "login"
                     st.rerun()
 
             with col2:
-                if st.button("Register", use_container_width=True, key="landing_register"):
+                if st.button("Register", width='stretch', key="landing_register"):
                     st.session_state.auth_page = "register"
                     st.rerun()
 
             with col3:
-                if st.button("Guest Access", use_container_width=True, key="landing_guest"):
+                if st.button("Guest Access", width='stretch', key="landing_guest"):
                     st.session_state.authenticated = True
                     st.session_state.guest_mode = True
                     st.rerun()
@@ -273,7 +273,7 @@ class AuthComponent:
                     username_or_email = st.text_input("Username or Email", placeholder="Enter your username or email")
                     password = st.text_input("Password", type="password", placeholder="Enter your password")
 
-                    submitted = st.form_submit_button("Sign In", type="primary", use_container_width=True, key="login_submit")
+                    submitted = st.form_submit_button("Sign In", type="primary", width='stretch', key="login_submit")
 
                     if submitted:
                         if not username_or_email or not password:
@@ -294,15 +294,15 @@ class AuthComponent:
             # Navigation links
             nav1, nav2, nav3 = st.columns([1, 1, 1])
             with nav1:
-                if st.button("Back to Landing", use_container_width=True, key="login_back"):
+                if st.button("Back to Landing", width='stretch', key="login_back"):
                     st.session_state.auth_page = "landing"
                     st.rerun()
             with nav2:
-                if st.button("Need an account? Register", use_container_width=True, key="login_to_register"):
+                if st.button("Need an account? Register", width='stretch', key="login_to_register"):
                     st.session_state.auth_page = "register"
                     st.rerun()
             with nav3:
-                if st.button("Continue as Guest", use_container_width=True, key="login_guest"):
+                if st.button("Continue as Guest", width='stretch', key="login_guest"):
                     st.session_state.authenticated = True
                     st.session_state.guest_mode = True
                     st.rerun()
@@ -332,7 +332,7 @@ class AuthComponent:
                     reg_password = st.text_input("Password (minimum 8 characters)", type="password", placeholder="Password")
                     reg_confirm = st.text_input("Confirm Password", type="password", placeholder="Re-enter password")
 
-                    reg_submitted = st.form_submit_button("Create Account", type="primary", use_container_width=True, key="register_submit")
+                    reg_submitted = st.form_submit_button("Create Account", type="primary", width='stretch', key="register_submit")
 
                     if reg_submitted:
                         if not reg_username or not reg_email or not reg_password:
@@ -348,7 +348,7 @@ class AuthComponent:
 
             if st.session_state.get("registration_success"):
                 st.success("Registration successful! You can now log in with your credentials.")
-                if st.button("Proceed to Login", type="primary", use_container_width=True, key="register_to_login"):
+                if st.button("Proceed to Login", type="primary", width='stretch', key="register_to_login"):
                     st.session_state.registration_success = False
                     st.session_state.auth_page = "login"
                     st.session_state.is_admin = False
@@ -358,12 +358,12 @@ class AuthComponent:
             # Navigation links
             nav1, nav2 = st.columns([1, 1])
             with nav1:
-                if st.button("Back to Landing", use_container_width=True, key="register_back"):
+                if st.button("Back to Landing", width='stretch', key="register_back"):
                     st.session_state.auth_page = "landing"
                     st.session_state.registration_success = False
                     st.rerun()
             with nav2:
-                if st.button("Already registered? Login", use_container_width=True, key="register_to_login2"):
+                if st.button("Already registered? Login", width='stretch', key="register_to_login2"):
                     st.session_state.auth_page = "login"
                     st.session_state.registration_success = False
                     st.rerun()
@@ -489,7 +489,7 @@ class AuthComponent:
 
                 if st.session_state.get("guest_mode"):
                     st.info("Browsing as **Guest User**")
-                    if st.button("🔑 Log In / Register", use_container_width=True):
+                    if st.button("🔑 Log In / Register", width='stretch'):
                         self.logout()
                 else:
                     if "current_user" not in st.session_state or st.session_state.current_user is None:
@@ -500,5 +500,5 @@ class AuthComponent:
                         st.markdown(f"**Username:** `{user.get('username', 'N/A')}`")
                         st.markdown(f"**Email:** `{user.get('email', 'N/A')}`")
 
-                    if st.button("🚪 Logout", type="secondary", use_container_width=True):
+                    if st.button("🚪 Logout", type="secondary", width='stretch'):
                         self.logout()
