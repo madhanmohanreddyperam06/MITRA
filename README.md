@@ -1,25 +1,25 @@
-# MITRA - AI Powered College Helpdesk Bot
+# MITRA
 
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
-![spaCy](https://img.shields.io/badge/spaCy-09A3D5?style=for-the-badge&logo=spacy&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=flat-square&logo=python)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.x-FF4B4B?style=flat-square&logo=streamlit)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=flat-square&logo=fastapi)
+![spaCy](https://img.shields.io/badge/spaCy-3.x-09A3D5?style=flat-square&logo=spacy)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=flat-square&logo=postgresql)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
 An intelligent chatbot system for college helpdesk services built with Streamlit frontend and FastAPI backend. MITRA provides instant responses to student queries about admissions, courses, facilities, and more using NLP techniques with spaCy.
 
 ## Features
 
-- 🎓 **Admission Information**: Get details about admission process, eligibility, and requirements
-- 📚 **Course Information**: Browse available courses and programs
-- 💰 **Fee Structure**: Information about fees, scholarships, and payment options
-- 🏠 **Hostel Facilities**: Details about accommodation and hostel services
-- 📖 **Library Services**: Library facilities and resources information
-- 🏢 **Placement Support**: Career guidance and placement statistics
-- 📞 **Contact Information**: Department contacts and office locations
-- 🔐 **User Authentication**: Secure JWT-based registration and login system
-- 🗄️ **PostgreSQL Database**: Robust relational storage using PostgreSQL, SQLAlchemy 2.0, and Alembic migrations
-- 👤 **Guest Mode**: Explore the system without registration
+- **Admission Information**: Get details about admission process, eligibility, and requirements
+- **Course Information**: Browse available courses and programs
+- **Fee Structure**: Information about fees, scholarships, and payment options
+- **Hostel Facilities**: Details about accommodation and hostel services
+- **Library Services**: Library facilities and resources information
+- **Placement Support**: Career guidance and placement statistics
+- **Contact Information**: Department contacts and office locations
+- **User Authentication**: Secure JWT-based registration and login system
+- **PostgreSQL Database**: Robust relational storage using PostgreSQL, SQLAlchemy 2.0, and Alembic migrations
 
 ## Completed Tasks & Status
 
