@@ -1,7 +1,7 @@
 # MITRA
 
-![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=flat-square&logo=python)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.x-FF4B4B?style=flat-square&logo=streamlit)
+![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=flat-square&logo=python)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=flat-square&logo=fastapi)
 ![spaCy](https://img.shields.io/badge/spaCy-3.x-09A3D5?style=flat-square&logo=spacy)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=flat-square&logo=postgresql)
